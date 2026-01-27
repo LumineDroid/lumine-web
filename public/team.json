@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Hexaboo",
+        "role": "Founder / Lead Developer",
+        "image": "https://github.com/Hexaboo.png",
+        "telegram": "https://t.me/Kizziama",
+        "github": "https://github.com/Hexaboi",
+        "email": "geeky@fortuneos.com"
+    },
+    {
+        "name": "Luigiee",
+        "role": "Co Founder",
+        "image": "https://github.com/fourninesix.png",
+        "telegram": "https://t.me/Luigiee",
+        "github": "https://github.com/fourninesix",
+        "email": "luigiee@fortuneos.com"
+    },
+    {
+        "name": "Mikazuuu07",
+        "role": "UI / UX Designer",
+        "image": "https://github.com/Mikazuuu07.png",
+        "telegram": "https://t.me/Mikazuuu07",
+        "github": "https://github.com/Mikazuuu07",
+        "email": "mikazuuu07@fortuneos.com"
+    },
+    {
+        "name": "Byben",
+        "role": "Core Developer / Designer",
+        "image": "https://github.com/heybyben.png",
+        "telegram": "https://t.me/Ramadhani",
+        "github": "https://github.com/heybyben",
+        "email": "ramadhani@fortuneos.com"
+    },
+    {
+        "name": "Piyyy",
+        "role": "Core Contributor",
+        "image": "https://github.com/Piyyy.png",
+        "telegram": "https://t.me/Piyyy",
+        "github": "https://github.com/Piyyy",
+        "email": "piyyy@fortuneos.com"
+    },
+    {
+        "name": "StartTrueDreams",
+        "role": "Core Contributor",
+        "image": "https://github.com/Hikari-Soni.png",
+        "telegram": "https://t.me/SoniDharma",
+        "github": "https://github.com/Hikari-Soni",
+        "email": "soni.dharma@fortuneos.com"
+    }
+]

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script>
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark" || !savedTheme) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      document.documentElement.style.visibility = "visible";
+      document.documentElement.style.opacity = "1";
+    </script>
+
+    <title>LumineDroid</title>
+  </head>
+  <body
+    class="bg-white dark:bg-gray-950 text-black dark:text-white transition-colors duration-500"
+  >
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
