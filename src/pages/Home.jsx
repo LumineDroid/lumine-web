@@ -187,7 +187,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="min-h-screen pt-4 sm:pt-8 px-4 sm:px-6 md:px-10 lg:px-20 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 text-gray-900 dark:text-gray-100 transition-colors">
+        <div className="min-h-screen pt-4 sm:pt-8 px-4 sm:px-6 md:px-10 lg:px-20 text-gray-900 dark:text-gray-100 transition-colors">
             <div className="max-w-7xl mx-auto w-full">
                 {/* Hero Section */}
                 <section className="mb-16 sm:mb-24 lg:mb-28 pt-8 sm:pt-12">

@@ -186,7 +186,7 @@ export default function Stats() {
   const totalDownloads = Object.values(stats).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-blue-50/30 to-purple-50/30 dark:from-neutral-950 dark:via-blue-950/20 dark:to-purple-950/20">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Hero */}
         <div className="text-center mb-8 sm:mb-12">

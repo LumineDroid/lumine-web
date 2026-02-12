@@ -291,8 +291,7 @@ const Blog = () => {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-neutral-50 via-blue-50/30 to-purple-50/30 
-                        dark:from-neutral-950 dark:via-blue-950/20 dark:to-purple-950/20"
+      className="min-h-screen"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
         {/* Hero Section */}
