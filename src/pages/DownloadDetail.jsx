@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaDownload, FaArrowLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 const DownloadDetail = () => {
   const { codename } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [device, setDevice] = useState(null);
   const [error, setError] = useState(null);
   const [changelog, setChangelog] = useState("");
@@ -13,92 +14,61 @@ const DownloadDetail = () => {
   const [activeTab, setActiveTab] = useState("changelog");
   const [loading, setLoading] = useState(true);
   const MAX_LINES = 15;
+  const params = new URLSearchParams(location.search);
+  const variant = params.get("variant") || "bellflower";
 
   useEffect(() => {
     fetchDeviceDetails();
-  }, [codename]);
+  }, [codename, variant]);
 
   const fetchDeviceDetails = async () => {
     try {
       setLoading(true);
       setError(null);
-
       const devicesResponse = await fetch(
         "https://raw.githubusercontent.com/LumineDroid-Devices/official_devices/refs/heads/bellflower/devices.json",
       );
       const devicesData = await devicesResponse.json();
-
       let baseDevice = null;
       Object.keys(devicesData).forEach((brand) => {
         const devices = Array.isArray(devicesData[brand])
           ? devicesData[brand]
           : [];
-        const device = devices.find((d) => d.codename === codename);
-        if (device && !baseDevice) {
+        const d = devices.find((d) => d.codename === codename);
+        if (d && !baseDevice) {
           baseDevice = {
-            ...device,
+            ...d,
             brand,
-            image: `https://github.com/LumineDroid-Devices/official_devices/raw/refs/heads/bellflower/assets/devices/${device.codename}.webp`,
+            image: `https://github.com/LumineDroid-Devices/official_devices/raw/refs/heads/bellflower/assets/devices/${d.codename}.webp`,
           };
         }
       });
-
       if (!baseDevice) {
         setError("Device not found.");
         setLoading(false);
         return;
       }
-
-      const branches = ["bellflower", "bynx"];
-      let builds = [];
-
-      await Promise.all(
-        branches.map(async (branch) => {
-          try {
-            const apiUrl = `https://raw.githubusercontent.com/LumineDroid-Devices/official_devices/refs/heads/${branch}/API/${codename}.json`;
-
-            const res = await fetch(apiUrl);
-            if (!res.ok) return;
-
-            const data = await res.json();
-
-            if (data.response && data.response.length > 0) {
-              const build = {
-                ...data.response[0],
-                branch,
-              };
-              builds.push(build);
-            }
-          } catch {
-            return;
-          }
-        }),
-      );
-
-      let detailedDevice = baseDevice;
-
-      if (builds.length > 0) {
-        builds.sort((a, b) => {
-          return (b.datetime || 0) - (a.datetime || 0);
-        });
-
-        const latestBuild = builds[0];
-
-        detailedDevice = {
-          ...baseDevice,
-          ...latestBuild,
-        };
-      }
-
-      setDevice(detailedDevice);
-
-      const changelogUrl = `https://raw.githubusercontent.com/LumineDroid-Devices/official_devices/refs/heads/${detailedDevice.branch || "bellflower"}/changelogs/${codename}.txt`;
-
+      let buildData = null;
       try {
-        const changelogRes = await fetch(changelogUrl);
+        const apiUrl = `https://raw.githubusercontent.com/LumineDroid-Devices/official_devices/refs/heads/${variant}/API/${codename}.json`;
+        const res = await fetch(apiUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.response && data.response.length > 0) {
+            buildData = { ...data.response[0], branch: variant };
+          }
+        }
+      } catch {}
+      const detailedDevice = buildData
+        ? { ...baseDevice, ...buildData }
+        : baseDevice;
+      setDevice(detailedDevice);
+      try {
+        const changelogRes = await fetch(
+          `https://raw.githubusercontent.com/LumineDroid-Devices/official_devices/refs/heads/${variant}/changelogs/${codename}.txt`,
+        );
         if (changelogRes.ok) {
-          const text = await changelogRes.text();
-          setChangelog(text);
+          setChangelog(await changelogRes.text());
         } else {
           setChangelog("Changelog not available for this device.");
         }
@@ -106,7 +76,6 @@ const DownloadDetail = () => {
         setChangelog("Changelog not available for this device.");
       }
     } catch (err) {
-      console.error("Error fetching device details:", err);
       setError("Failed to fetch device details.");
     } finally {
       setLoading(false);
@@ -169,7 +138,6 @@ const DownloadDetail = () => {
           className="group relative overflow-hidden rounded-2xl transition-all duration-500"
         >
           <div className="absolute inset-0 bg-slate-50 dark:bg-slate-900/50 border border-pink-200 dark:border-pink-500/20 rounded-2xl"></div>
-
           <div className="absolute -inset-px bg-gradient-to-br from-pink-400/30 to-blue-500/20 dark:from-pink-500/15 dark:to-blue-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
           <div className="relative p-8 sm:p-12 space-y-8">
@@ -236,7 +204,6 @@ const DownloadDetail = () => {
                       </span>
                     </div>
                   )}
-
                   {device.buildtype && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -247,7 +214,6 @@ const DownloadDetail = () => {
                       </span>
                     </div>
                   )}
-
                   {device.currently_maintained !== undefined && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -264,7 +230,6 @@ const DownloadDetail = () => {
                       </span>
                     </div>
                   )}
-
                   {device.size && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -275,7 +240,6 @@ const DownloadDetail = () => {
                       </span>
                     </div>
                   )}
-
                   {device.md5 && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -286,7 +250,6 @@ const DownloadDetail = () => {
                       </span>
                     </div>
                   )}
-
                   {device.sha256 && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -297,7 +260,6 @@ const DownloadDetail = () => {
                       </span>
                     </div>
                   )}
-
                   {device.forum && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -313,7 +275,6 @@ const DownloadDetail = () => {
                       </a>
                     </div>
                   )}
-
                   {device.github && (
                     <div>
                       <span className="text-slate-600 dark:text-slate-400">
@@ -343,7 +304,9 @@ const DownloadDetail = () => {
                   disabled={!device.download}
                 >
                   <FaDownload size={18} />
-                  {device.download ? "Download ROM" : "Link Unavailable"}
+                  {device.download
+                    ? `Download ROM (${variant})`
+                    : "Link Unavailable"}
                 </a>
               </div>
             </div>
