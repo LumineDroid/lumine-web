@@ -337,6 +337,22 @@ const Navbar = () => {
               Changelog
             </Link>
 
+            <Link
+              to="/stats"
+              className={`block px-4 py-3 rounded-lg text-base transition-all duration-200 ${
+                isActive("/stats")
+                  ? isDark
+                    ? "bg-pink-500/20 text-pink-400 font-medium"
+                    : "bg-pink-400/20 text-pink-600 font-medium"
+                  : isDark
+                    ? "text-slate-300 hover:bg-pink-500/10 hover:text-slate-100"
+                    : "text-slate-600 hover:bg-pink-400/10 hover:text-slate-800"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              Stats
+            </Link>
+
             <div
               className={`h-px my-2 ${
                 isDark ? "bg-pink-500/10" : "bg-pink-400/10"
