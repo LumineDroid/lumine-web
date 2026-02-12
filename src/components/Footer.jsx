@@ -146,10 +146,6 @@ const Footer = () => {
                         <FaHeart className="text-pink-500" size={14} />
                         <span>by the community</span>
                     </div>
-
-                    <p className="text-xs text-slate-500 dark:text-slate-500">
-                        LumineDroid is not affiliated with Google or Android.
-                    </p>
                 </div>
             </div>
         </footer>
