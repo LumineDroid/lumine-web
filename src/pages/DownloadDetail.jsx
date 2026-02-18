@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
     FaDownload,
@@ -15,9 +15,16 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 const DownloadDetail = () => {
-    const { codename } = useParams();
+    const { codename, variant: routeVariant } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
+
+    const allowedVariants = ["bellflower", "bynx"];
+
+    const variant = allowedVariants.includes(routeVariant)
+        ? routeVariant
+        : "bellflower";
+    const [showVariantMenu, setShowVariantMenu] = useState(false);
+
     const [device, setDevice] = useState(null);
     const [error, setError] = useState(null);
     const [changelog, setChangelog] = useState("");
@@ -25,13 +32,30 @@ const DownloadDetail = () => {
     const [activeTab, setActiveTab] = useState("changelog");
     const [loading, setLoading] = useState(true);
     const [copied, setCopied] = useState("");
+
     const MAX_LINES = 10;
-    const params = new URLSearchParams(location.search);
-    const variant = params.get("variant") || "bellflower";
+
+    useEffect(() => {
+        if (routeVariant && !allowedVariants.includes(routeVariant)) {
+            navigate(`/download/devices/${codename}/bellflower`, {
+                replace: true
+            });
+        }
+    }, [routeVariant, codename, navigate]);
 
     useEffect(() => {
         fetchDeviceDetails();
     }, [codename, variant]);
+
+    useEffect(() => {
+        const handleClickOutside = e => {
+            if (!e.target.closest(".relative")) {
+                setShowVariantMenu(false);
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, []);
 
     const fetchDeviceDetails = async () => {
         try {
@@ -224,11 +248,93 @@ const DownloadDetail = () => {
                                                 </span>
                                             </div>
                                             {device.branch && (
-                                                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                                                    <FaCodeBranch className="text-purple-600 dark:text-purple-400 text-xs" />
-                                                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300 capitalize">
-                                                        {device.branch}
-                                                    </span>
+                                                <div className="relative">
+                                                    {/* Trigger */}
+                                                    <button
+                                                        onClick={() =>
+                                                            setShowVariantMenu(
+                                                                !showVariantMenu
+                                                            )
+                                                        }
+                                                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-pink-400 dark:hover:border-pink-500 transition group"
+                                                    >
+                                                        <FaCodeBranch className="text-purple-600 dark:text-purple-400 text-xs" />
+
+                                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300 capitalize">
+                                                            {variant}
+                                                        </span>
+
+                                                        <svg
+                                                            className={`w-3 h-3 transition-transform ${
+                                                                showVariantMenu
+                                                                    ? "rotate-180"
+                                                                    : ""
+                                                            } text-slate-500`}
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M19 9l-7 7-7-7"
+                                                            />
+                                                        </svg>
+                                                    </button>
+
+                                                    {/* Dropdown */}
+                                                    <AnimatePresence>
+                                                        {showVariantMenu && (
+                                                            <motion.div
+                                                                initial={{
+                                                                    opacity: 0,
+                                                                    y: 8,
+                                                                    scale: 0.95
+                                                                }}
+                                                                animate={{
+                                                                    opacity: 1,
+                                                                    y: 0,
+                                                                    scale: 1
+                                                                }}
+                                                                exit={{
+                                                                    opacity: 0,
+                                                                    y: 8,
+                                                                    scale: 0.95
+                                                                }}
+                                                                transition={{
+                                                                    duration: 0.15
+                                                                }}
+                                                                className="absolute mt-2 w-40 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg z-50 overflow-hidden"
+                                                            >
+                                                                {allowedVariants.map(
+                                                                    v => (
+                                                                        <button
+                                                                            key={
+                                                                                v
+                                                                            }
+                                                                            onClick={() => {
+                                                                                setShowVariantMenu(
+                                                                                    false
+                                                                                );
+                                                                                navigate(
+                                                                                    `/download/devices/${codename}/${v}`
+                                                                                );
+                                                                            }}
+                                                                            className={`w-full text-left px-4 py-2.5 text-sm capitalize transition ${
+                                                                                v ===
+                                                                                variant
+                                                                                    ? "bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 font-semibold"
+                                                                                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                                                            }`}
+                                                                        >
+                                                                            {v}
+                                                                        </button>
+                                                                    )
+                                                                )}
+                                                            </motion.div>
+                                                        )}
+                                                    </AnimatePresence>
                                                 </div>
                                             )}
                                         </div>

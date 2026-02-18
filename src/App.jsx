@@ -11,40 +11,44 @@ import DownloadDetail from "./pages/DownloadDetail";
 import Stats from "./pages/Stats";
 
 const App = () => {
-  const location = useLocation();
-  const [loading, setLoading] = useState(false);
+    const location = useLocation();
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
+    useEffect(() => {
+        setLoading(true);
 
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 800);
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 800);
 
-    return () => clearTimeout(timer);
-  }, [location]);
+        return () => clearTimeout(timer);
+    }, [location]);
 
-  return (
-    <>
-      {loading && <Loader />}
-      <Navbar />
-      <main className="bg-pattern pt-20 px-4">
-        {" "}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/changelog" element={<Blog />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/download" element={<Download />} />
-          <Route
-            path="/download/devices/:codename"
-            element={<DownloadDetail />}
-          />
-          <Route path="/stats" element={<Stats />} />
-        </Routes>
-      </main>
-      <Footer />
-    </>
-  );
+    return (
+        <>
+            {loading && <Loader />}
+            <Navbar />
+            <main className="bg-pattern pt-20 px-4">
+                {" "}
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/changelog" element={<Blog />} />
+                    <Route path="/team" element={<Team />} />
+                    <Route path="/download" element={<Download />} />
+                    <Route
+                        path="/download/devices/:codename/:variant"
+                        element={<DownloadDetail />}
+                    />
+                    <Route
+                        path="/download/devices/:codename"
+                        element={<DownloadDetail />}
+                    />
+                    <Route path="/stats" element={<Stats />} />
+                </Routes>
+            </main>
+            <Footer />
+        </>
+    );
 };
 
 export default App;
