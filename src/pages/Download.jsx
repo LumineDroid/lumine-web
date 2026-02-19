@@ -197,12 +197,12 @@ const Download = () => {
 
                         {/* Brand Filter Pills */}
                         <AnimatePresence>
-                            {(showFilters || window.innerWidth >= 1024) && (
+                            {showFilters && (
                                 <motion.div
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: "auto" }}
                                     exit={{ opacity: 0, height: 0 }}
-                                    className="overflow-hidden"
+                                    className="overflow-hidden lg:hidden"
                                 >
                                     <div className="flex flex-wrap gap-2 pt-2">
                                         {brands.map((brand, index) => (
