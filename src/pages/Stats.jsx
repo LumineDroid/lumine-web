@@ -30,41 +30,56 @@ const countryFlagUrl = (countryName) => {
   return `https://flagcdn.com/w20/${code.toLowerCase()}.png`;
 };
 
-const DeviceCard = ({ name, codename, downloads, index }) => (
-  <motion.div
-    variants={scaleUp}
-    initial="hidden"
-    whileInView="show"
-    viewport={{ once: true }}
-    custom={index}
-    className="group relative rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-blue-500/10 bg-white dark:bg-neutral-900/50 backdrop-blur-md p-4 sm:p-5 flex items-center gap-4"
-  >
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+const DeviceCard = ({ name, codename, downloads, index }) => {
+  const imageUrl = `https://github.com/LumineDroid-Devices/official_devices/raw/refs/heads/bellflower/assets/devices/${codename}.webp`;
 
-    {/* Rank Indicator */}
-    <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-sm sm:text-base border border-blue-200 dark:border-blue-800/50">
-      #{index + 1}
-    </div>
+  return (
+    <motion.div
+      variants={scaleUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      custom={index}
+      className="group relative rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-blue-500/10 bg-white dark:bg-neutral-900/50 backdrop-blur-md p-4 sm:p-5 flex items-center gap-4"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      {/* Device Image with Rank Badge */}
+      <div className="relative flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-neutral-100 dark:bg-neutral-800 rounded-xl p-1 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center">
+        <img 
+          src={imageUrl} 
+          alt={name} 
+          className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+          onError={(e) => {
+            e.target.src = `https://via.placeholder.com/150?text=${encodeURIComponent(codename)}`;
+          }}
+        />
+        {/* Small Rank Indicator */}
+        <div className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xs shadow-sm border-2 border-white dark:border-neutral-900 z-10">
+          {index + 1}
+        </div>
+      </div>
 
-    {/* Info */}
-    <div className="flex-1 min-w-0">
-      <h3 className="font-bold text-gray-900 dark:text-gray-100 truncate text-base sm:text-lg">
-        {name}
-      </h3>
-      <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-mono">
-        {codename.toLowerCase()}
-      </p>
-    </div>
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <h3 className="font-bold text-gray-900 dark:text-gray-100 truncate text-base sm:text-lg">
+          {name}
+        </h3>
+        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-mono">
+          {codename.toLowerCase()}
+        </p>
+      </div>
 
-    {/* Downloads Badge */}
-    <div className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-sm">
-      <FaDownload className="text-xs sm:text-sm text-blue-500 dark:text-blue-400" />
-      <span className="font-semibold text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">
-        {(downloads ?? 0).toLocaleString()}
-      </span>
-    </div>
-  </motion.div>
-);
+      {/* Downloads Badge */}
+      <div className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-sm">
+        <FaDownload className="text-xs sm:text-sm text-blue-500 dark:text-blue-400" />
+        <span className="font-semibold text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">
+          {(downloads ?? 0).toLocaleString()}
+        </span>
+      </div>
+    </motion.div>
+  );
+};
 
 const CountryCard = ({ country, downloads, index }) => (
   <motion.div
