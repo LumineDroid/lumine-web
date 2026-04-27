@@ -37,15 +37,30 @@ const DeviceCard = ({ name, codename, downloads, index }) => (
     whileInView="show"
     viewport={{ once: true }}
     custom={index}
-    className="group relative rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 overflow-hidden transition-all duration-300 hover:shadow-lg dark:hover:shadow-2xl dark:hover:shadow-blue-500/10 bg-white dark:bg-neutral-900/50 backdrop-blur-sm p-4 sm:p-6 flex justify-between items-center"
+    className="group relative rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-blue-500/10 bg-white dark:bg-neutral-900/50 backdrop-blur-md p-4 sm:p-5 flex items-center gap-4"
   >
-    <motion.div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full">
-      <span className="font-semibold text-gray-900 dark:text-gray-100 truncate">
-        {name} ({codename.toLowerCase()})
-      </span>
-      <span className="mt-1 sm:mt-0 text-sm sm:text-base text-neutral-500 dark:text-neutral-400">
-        {downloads ?? 0} downloads
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+    {/* Rank Indicator */}
+    <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-sm sm:text-base border border-blue-200 dark:border-blue-800/50">
+      #{index + 1}
+    </div>
+
+    {/* Info */}
+    <div className="flex-1 min-w-0">
+      <h3 className="font-bold text-gray-900 dark:text-gray-100 truncate text-base sm:text-lg">
+        {name}
+      </h3>
+      <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-mono">
+        {codename.toLowerCase()}
+      </p>
+    </div>
+
+    {/* Downloads Badge */}
+    <div className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-sm">
+      <FaDownload className="text-xs sm:text-sm text-blue-500 dark:text-blue-400" />
+      <span className="font-semibold text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">
+        {(downloads ?? 0).toLocaleString()}
       </span>
     </div>
   </motion.div>
@@ -58,20 +73,32 @@ const CountryCard = ({ country, downloads, index }) => (
     whileInView="show"
     viewport={{ once: true }}
     custom={index}
-    className="group relative rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 overflow-hidden transition-all duration-300 hover:shadow-lg dark:hover:shadow-2xl dark:hover:shadow-green-500/10 bg-white dark:bg-neutral-900/50 backdrop-blur-sm p-4 sm:p-6 flex justify-between items-center"
+    className="group relative rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-green-500/10 bg-white dark:bg-neutral-900/50 backdrop-blur-md p-4 sm:p-5 flex items-center gap-4"
   >
-    <motion.div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    <div className="flex justify-between items-center w-full">
-      <span className="font-semibold text-gray-900 dark:text-gray-100 truncate flex items-center gap-2">
-        <img
-          src={countryFlagUrl(country)}
-          alt={`${country} flag`}
-          className="w-5 h-3 object-cover rounded-sm"
-        />
-        <span>{country}</span>
-      </span>
-      <span className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400">
-        {downloads.toLocaleString()} downloads
+    <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+    {/* Rank Indicator */}
+    <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 font-bold text-sm sm:text-base border border-green-200 dark:border-green-800/50">
+      #{index + 1}
+    </div>
+
+    {/* Info */}
+    <div className="flex-1 min-w-0 flex items-center gap-3">
+      <img
+        src={countryFlagUrl(country)}
+        alt={`${country} flag`}
+        className="w-8 h-6 object-cover rounded shadow-sm border border-neutral-200 dark:border-neutral-700"
+      />
+      <h3 className="font-bold text-gray-900 dark:text-gray-100 truncate text-base sm:text-lg">
+        {country}
+      </h3>
+    </div>
+
+    {/* Downloads Badge */}
+    <div className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-sm">
+      <FaDownload className="text-xs sm:text-sm text-green-500 dark:text-green-400" />
+      <span className="font-semibold text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">
+        {downloads.toLocaleString()}
       </span>
     </div>
   </motion.div>
@@ -120,9 +147,8 @@ export default function Stats() {
 
         uniqueDevices.forEach((device) => {
           branches.forEach((branch) => {
-            const url = `https://sourceforge.net/projects/luminedroid/files/${device.codename}/${branch.name}/stats/json?start_date=2000-01-01&end_date=${
-              new Date().toISOString().split("T")[0]
-            }`;
+            const url = `https://sourceforge.net/projects/luminedroid/files/${device.codename}/${branch.name}/stats/json?start_date=2000-01-01&end_date=${new Date().toISOString().split("T")[0]
+              }`;
             fetchPromises.push(
               fetch(url)
                 .then((res) =>
@@ -200,28 +226,39 @@ export default function Stats() {
 
         {/* Summary Cards */}
         {!loading && (
-          <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 sm:mb-8">
+          <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 sm:mb-12">
             <motion.div
-              whileHover={{ y: -4 }}
-              className="p-4 sm:p-6 rounded-2xl bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm border border-blue-200 dark:border-blue-900/30 flex flex-col items-center"
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-500/5 dark:to-purple-500/5 backdrop-blur-md border border-blue-200/50 dark:border-blue-800/30 overflow-hidden flex flex-col items-center shadow-lg dark:shadow-none"
             >
-              <FaLayerGroup className="text-2xl sm:text-3xl text-blue-600 dark:text-blue-400 mb-1 sm:mb-2" />
-              <p className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl"></div>
+
+              <div className="p-4 bg-white dark:bg-neutral-800 rounded-2xl shadow-sm mb-4 relative z-10 border border-neutral-100 dark:border-neutral-700">
+                <FaLayerGroup className="text-3xl sm:text-4xl text-blue-600 dark:text-blue-400" />
+              </div>
+              <p className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-1 relative z-10">
                 {devices.length}
               </p>
-              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
-                Total Devices
+              <p className="text-sm sm:text-base font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider relative z-10">
+                Supported Devices
               </p>
             </motion.div>
+
             <motion.div
-              whileHover={{ y: -4 }}
-              className="p-4 sm:p-6 rounded-2xl bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm border border-purple-200 dark:border-purple-900/30 flex flex-col items-center"
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 dark:from-purple-500/5 dark:to-pink-500/5 backdrop-blur-md border border-purple-200/50 dark:border-purple-800/30 overflow-hidden flex flex-col items-center shadow-lg dark:shadow-none"
             >
-              <FaDownload className="text-2xl sm:text-3xl text-purple-600 dark:text-purple-400 mb-1 sm:mb-2" />
-              <p className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
-                {totalDownloads}
+              <div className="absolute -top-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-pink-500/20 rounded-full blur-3xl"></div>
+
+              <div className="p-4 bg-white dark:bg-neutral-800 rounded-2xl shadow-sm mb-4 relative z-10 border border-neutral-100 dark:border-neutral-700">
+                <FaDownload className="text-3xl sm:text-4xl text-purple-600 dark:text-purple-400" />
+              </div>
+              <p className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-1 relative z-10">
+                {totalDownloads.toLocaleString()}
               </p>
-              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
+              <p className="text-sm sm:text-base font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider relative z-10">
                 Total Downloads
               </p>
             </motion.div>
@@ -242,61 +279,87 @@ export default function Stats() {
         {/* Two-column layout */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Devices Column */}
-          <div className="flex-1 space-y-4">
-            <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              Most Device Downloads
-            </h2>
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-12 sm:py-16">
-                <FaSpinner className="text-2xl sm:text-3xl text-blue-500 animate-spin" />
-                <span className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 mt-2 sm:mt-4">
-                  Loading devices...
-                </span>
+          <div className="flex-1 flex flex-col bg-white/40 dark:bg-neutral-900/40 border border-neutral-200/50 dark:border-neutral-800/50 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-lg shadow-neutral-200/20 dark:shadow-none">
+            <div className="flex items-center justify-between mb-4 pb-4 border-b border-neutral-200/50 dark:border-neutral-800/50">
+              <h2 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                Most Device Downloads
+              </h2>
+              {!loading && (
+                <div className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-bold border border-blue-200/50 dark:border-blue-800/50">
+                  {devicesToShow.length} Devices
+                </div>
+              )}
+            </div>
+            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar rounded-xl [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700 [&::-webkit-scrollbar-thumb]:rounded-full">
+              {loading ? (
+                <div className="flex flex-col items-center justify-center py-12 sm:py-16">
+                  <FaSpinner className="text-2xl sm:text-3xl text-blue-500 animate-spin" />
+                  <span className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 mt-2 sm:mt-4">
+                    Loading devices...
+                  </span>
+                </div>
+              ) : (
+                <>
+                  {devicesToShow.map((device, i) => (
+                    <DeviceCard
+                      key={device.codename}
+                      name={device.name}
+                      codename={device.codename}
+                      downloads={stats[device.codename.toLowerCase()]}
+                      index={i}
+                    />
+                  ))}
+                </>
+              )}
+            </div>
+
+            {/* Sticky Show All Button */}
+            {!loading && sortedDevices.length > 5 && (
+              <div className="mt-4 pt-4 border-t border-neutral-200/50 dark:border-neutral-800/50">
+                <button
+                  onClick={() => setShowAllDevices(!showAllDevices)}
+                  className="w-full py-3 px-4 rounded-xl bg-white/50 dark:bg-neutral-800/50 border border-blue-100 dark:border-blue-900/30 backdrop-blur-sm text-blue-600 dark:text-blue-400 font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 flex justify-center items-center shadow-sm"
+                >
+                  {showAllDevices ? "Show Less Devices" : "Show All Devices"}
+                </button>
               </div>
-            ) : (
-              <>
-                {devicesToShow.map((device, i) => (
-                  <DeviceCard
-                    key={device.codename}
-                    name={device.name}
-                    codename={device.codename}
-                    downloads={stats[device.codename.toLowerCase()]}
-                    index={i}
-                  />
-                ))}
-                {sortedDevices.length > 5 && (
-                  <button
-                    onClick={() => setShowAllDevices(!showAllDevices)}
-                    className="w-full py-2 px-4 mt-2 rounded-xl bg-white/30 dark:bg-neutral-900/30 backdrop-blur-sm text-blue-600 dark:text-blue-400 font-semibold hover:bg-white/50 dark:hover:bg-neutral-900/50 transition-colors duration-200 flex justify-center items-center"
-                  >
-                    {showAllDevices ? "Show Less" : "Show All"}
-                  </button>
-                )}
-              </>
             )}
           </div>
 
           {/* Country Column */}
-          <div className="w-full lg:w-1/3 space-y-4">
-            <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              Most Country Downloads
-            </h2>
-            {!loading &&
-              countriesToShow.map(([country, total], i) => (
-                <CountryCard
-                  key={country}
-                  country={country}
-                  downloads={total}
-                  index={i}
-                />
-              ))}
-            {sortedCountries.length > 5 && (
-              <button
-                onClick={() => setShowAllCountries(!showAllCountries)}
-                className="w-full py-2 px-4 mt-2 rounded-xl bg-white/30 dark:bg-neutral-900/30 backdrop-blur-sm text-green-600 dark:text-green-400 font-semibold hover:bg-white/50 dark:hover:bg-neutral-900/50 transition-colors duration-200 flex justify-center items-center"
-              >
-                {showAllCountries ? "Show Less" : "Show All"}
-              </button>
+          <div className="w-full lg:w-1/3 flex flex-col bg-white/40 dark:bg-neutral-900/40 border border-neutral-200/50 dark:border-neutral-800/50 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-lg shadow-neutral-200/20 dark:shadow-none">
+            <div className="flex items-center justify-between mb-4 pb-4 border-b border-neutral-200/50 dark:border-neutral-800/50">
+              <h2 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                Most Country Downloads
+              </h2>
+              {!loading && (
+                <div className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs font-bold border border-green-200/50 dark:border-green-800/50">
+                  {countriesToShow.length} Countries
+                </div>
+              )}
+            </div>
+            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar rounded-xl [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700 [&::-webkit-scrollbar-thumb]:rounded-full">
+              {!loading &&
+                countriesToShow.map(([country, total], i) => (
+                  <CountryCard
+                    key={country}
+                    country={country}
+                    downloads={total}
+                    index={i}
+                  />
+                ))}
+            </div>
+
+            {/* Sticky Show All Button */}
+            {!loading && sortedCountries.length > 5 && (
+              <div className="mt-4 pt-4 border-t border-neutral-200/50 dark:border-neutral-800/50">
+                <button
+                  onClick={() => setShowAllCountries(!showAllCountries)}
+                  className="w-full py-3 px-4 rounded-xl bg-white/50 dark:bg-neutral-800/50 border border-green-100 dark:border-green-900/30 backdrop-blur-sm text-green-600 dark:text-green-400 font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-200 flex justify-center items-center shadow-sm"
+                >
+                  {showAllCountries ? "Show Less Countries" : "Show All Countries"}
+                </button>
+              </div>
             )}
           </div>
         </div>
