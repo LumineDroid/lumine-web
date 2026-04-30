@@ -222,11 +222,10 @@ const Download = () => {
                                                 onClick={() =>
                                                     setSelectedBrand(brand)
                                                 }
-                                                className={`group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                                                    selectedBrand === brand
+                                                className={`group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${selectedBrand === brand
                                                         ? "text-white shadow-lg shadow-pink-500/30"
                                                         : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 hover:border-pink-300 dark:hover:border-pink-500/30"
-                                                }`}
+                                                    }`}
                                             >
                                                 {selectedBrand === brand && (
                                                     <motion.div
@@ -257,11 +256,10 @@ const Download = () => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: index * 0.03 }}
                                     onClick={() => setSelectedBrand(brand)}
-                                    className={`group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                                        selectedBrand === brand
+                                    className={`group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${selectedBrand === brand
                                             ? "text-white shadow-lg shadow-pink-500/30"
                                             : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 hover:border-pink-300 dark:hover:border-pink-500/30"
-                                    }`}
+                                        }`}
                                 >
                                     {selectedBrand === brand && (
                                         <motion.div
@@ -381,72 +379,68 @@ const Download = () => {
                                                                 .supported_versions[0]
                                                                 .stable !==
                                                                 undefined && (
-                                                                <div className="flex items-center justify-between text-sm">
-                                                                    <span className="text-slate-500 dark:text-slate-400">
-                                                                        Build
-                                                                        Status
-                                                                    </span>
-                                                                    <span
-                                                                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md font-semibold text-xs ${
-                                                                            device
-                                                                                .supported_versions[0]
-                                                                                .stable
-                                                                                ? "bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30"
-                                                                                : "bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30"
-                                                                        }`}
-                                                                    >
+                                                                    <div className="flex items-center justify-between text-sm">
+                                                                        <span className="text-slate-500 dark:text-slate-400">
+                                                                            Build
+                                                                            Status
+                                                                        </span>
                                                                         <span
-                                                                            className={`w-1.5 h-1.5 rounded-full ${
-                                                                                device
+                                                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md font-semibold text-xs ${device
                                                                                     .supported_versions[0]
                                                                                     .stable
-                                                                                    ? "bg-green-500"
-                                                                                    : "bg-amber-500"
-                                                                            }`}
-                                                                        ></span>
-                                                                        {device
-                                                                            .supported_versions[0]
-                                                                            .stable
-                                                                            ? "Stable"
-                                                                            : "Beta"}
-                                                                    </span>
-                                                                </div>
-                                                            )}
+                                                                                    ? "bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30"
+                                                                                    : "bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30"
+                                                                                }`}
+                                                                        >
+                                                                            <span
+                                                                                className={`w-1.5 h-1.5 rounded-full ${device
+                                                                                        .supported_versions[0]
+                                                                                        .stable
+                                                                                        ? "bg-green-500"
+                                                                                        : "bg-amber-500"
+                                                                                    }`}
+                                                                            ></span>
+                                                                            {device
+                                                                                .supported_versions[0]
+                                                                                .stable
+                                                                                ? "Stable"
+                                                                                : "Beta"}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
                                                             {device
                                                                 .supported_versions[0]
                                                                 .deprecated !==
                                                                 undefined && (
-                                                                <div className="flex items-center justify-between text-sm">
-                                                                    <span className="text-slate-500 dark:text-slate-400">
-                                                                        Support
-                                                                        Status
-                                                                    </span>
-                                                                    <span
-                                                                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md font-semibold text-xs ${
-                                                                            !device
-                                                                                .supported_versions[0]
-                                                                                .deprecated
-                                                                                ? "bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30"
-                                                                                : "bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/30"
-                                                                        }`}
-                                                                    >
+                                                                    <div className="flex items-center justify-between text-sm">
+                                                                        <span className="text-slate-500 dark:text-slate-400">
+                                                                            Support
+                                                                            Status
+                                                                        </span>
                                                                         <span
-                                                                            className={`w-1.5 h-1.5 rounded-full ${
-                                                                                !device
+                                                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md font-semibold text-xs ${!device
                                                                                     .supported_versions[0]
                                                                                     .deprecated
-                                                                                    ? "bg-blue-500"
-                                                                                    : "bg-red-500"
-                                                                            }`}
-                                                                        ></span>
-                                                                        {!device
-                                                                            .supported_versions[0]
-                                                                            .deprecated
-                                                                            ? "Active"
-                                                                            : "Deprecated"}
-                                                                    </span>
-                                                                </div>
-                                                            )}
+                                                                                    ? "bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30"
+                                                                                    : "bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/30"
+                                                                                }`}
+                                                                        >
+                                                                            <span
+                                                                                className={`w-1.5 h-1.5 rounded-full ${!device
+                                                                                        .supported_versions[0]
+                                                                                        .deprecated
+                                                                                        ? "bg-blue-500"
+                                                                                        : "bg-red-500"
+                                                                                    }`}
+                                                                            ></span>
+                                                                            {!device
+                                                                                .supported_versions[0]
+                                                                                .deprecated
+                                                                                ? "Active"
+                                                                                : "Inactive"}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
                                                         </>
                                                     )}
                                             </div>
